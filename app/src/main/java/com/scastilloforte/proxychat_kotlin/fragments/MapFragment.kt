@@ -1,8 +1,11 @@
 package com.scastilloforte.proxychat_kotlin.fragments
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Bundle
 import android.support.design.widget.BottomSheetDialogFragment
+import android.support.v4.app.ActivityCompat
 import com.firebase.geofire.GeoFire
 import com.firebase.geofire.GeoLocation
 import com.firebase.geofire.GeoQuery
@@ -55,6 +58,18 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback, GoogleMap.OnMapLon
         mpsNearProfile = HashMap()
 
         gMap = p0
+
+        //Comprueba los permisos
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return
+        }
 
         gMap?.uiSettings?.isMapToolbarEnabled = true
         gMap?.uiSettings?.isMyLocationButtonEnabled = true
@@ -152,7 +167,7 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback, GoogleMap.OnMapLon
 
                             val marker : Marker? = gMap?.addMarker(MarkerOptions()
                                     .title(usrProxy?.apodo)
-                                    .position(LatLng(location!!.latitude, location!!.longitude))
+                                    .position(LatLng(location!!.latitude, location.longitude))
                                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)))
 
                             marker?.tag = "u:${usrProxy?.id}"
@@ -167,7 +182,7 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback, GoogleMap.OnMapLon
 
             override fun onKeyMoved(key: String?, location: GeoLocation?) {
                 if (key != user?.id)
-                    usersNearMarker?.get(key)?.position = LatLng(location!!.latitude, location!!.longitude)
+                    usersNearMarker?.get(key)?.position = LatLng(location!!.latitude, location.longitude)
             }
 
             override fun onKeyExited(key: String?) {
