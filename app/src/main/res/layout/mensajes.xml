@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@android:color/background_dark"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/botonEnviarProxy"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="5dp"
+            android:background="@android:color/background_dark"
+            tools:listitem="@layout/card_view_mensajes"></android.support.v7.widget.RecyclerView>
+
+        <ImageButton
+            android:id="@id/botonEnviarProxy"
+            android:layout_width="46dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:background="@drawable/boton_circular"
+            android:src="@drawable/ic_send"
+            />
+
+        <EditText
+            android:id="@+id/etMensaje"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:paddingLeft="18dp"
+            android:paddingRight="18dp"
+            android:layout_alignTop="@id/botonEnviarProxy"
+            android:layout_toLeftOf="@id/botonEnviarProxy"
+            android:layout_toStartOf="@id/botonEnviarProxy"
+            android:background="@drawable/campo_texto"
+            android:hint="Escribe un mensaje"
+            android:textColor="@android:color/holo_green_light"
+            android:textColorHint="@android:color/holo_orange_dark" />
+
+    </RelativeLayout>
+
+</LinearLayout>
