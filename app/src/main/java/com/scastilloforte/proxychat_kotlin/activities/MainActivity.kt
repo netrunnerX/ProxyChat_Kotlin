@@ -9,12 +9,12 @@ import android.os.Bundle
 
 import com.scastilloforte.proxychat_kotlin.R
 import com.scastilloforte.proxychat_kotlin.fragments.MapFragment
-import com.scastilloforte.proxychat_kotlin.models.User
+import com.scastilloforte.proxychat_kotlin.models.Usuario
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    var user : User? = null
+    var user : Usuario? = null
     /**
      * The [android.support.v4.view.PagerAdapter] that will provide
      * fragments for each of the sections. We use a
@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        user = intent.extras.getSerializable("user") as User
+        user = intent.extras.getSerializable("user") as Usuario
 
         setSupportActionBar(toolbar)
         // Create the adapter that will return a fragment for each of the three

@@ -18,7 +18,7 @@ import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
 import com.scastilloforte.proxychat_kotlin.BuildConfig
 import com.scastilloforte.proxychat_kotlin.R
-import com.scastilloforte.proxychat_kotlin.models.User
+import com.scastilloforte.proxychat_kotlin.models.Usuario
 import kotlinx.android.synthetic.main.activity_register.*
 import java.io.FileNotFoundException
 import java.io.InputStream
@@ -27,7 +27,7 @@ class Register : AppCompatActivity() {
 
     var databaseReference : DatabaseReference? = null
     var progressDialog : ProgressDialog? = null
-    var user : User? = null
+    var user : Usuario? = null
     var uploadTask : UploadTask? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -80,7 +80,7 @@ class Register : AppCompatActivity() {
                 override fun onDataChange(p0: DataSnapshot?) {
 
                     for (usr in p0!!.children) {
-                        val u : User? = usr.getValue(User::class.java)
+                        val u : Usuario? = usr.getValue(Usuario::class.java)
 
                         if (u?.apodo == etNickReg.text.toString()) {
                             etNickReg.setError("El nick ya existe")
@@ -118,7 +118,7 @@ class Register : AppCompatActivity() {
                                 .build()
                         fbUser.updateProfile(profileUpdates).addOnCompleteListener {
                             if (it.isSuccessful) {
-                                user = User(id = fbUser.uid, apodo = fbUser.displayName)
+                                user = Usuario(id = fbUser.uid, apodo = fbUser.displayName)
 
                                 val token : String? = FirebaseInstanceId.getInstance().token
 

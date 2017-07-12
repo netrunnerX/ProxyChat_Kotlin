@@ -15,7 +15,7 @@ import com.google.android.gms.maps.model.*
 import com.google.firebase.database.*
 import com.scastilloforte.proxychat_kotlin.activities.MainActivity
 import com.scastilloforte.proxychat_kotlin.models.MeetingPoint
-import com.scastilloforte.proxychat_kotlin.models.User
+import com.scastilloforte.proxychat_kotlin.models.Usuario
 import io.nlopez.smartlocation.SmartLocation
 
 /**
@@ -24,12 +24,12 @@ import io.nlopez.smartlocation.SmartLocation
 class MapFragment : SupportMapFragment(), OnMapReadyCallback, GoogleMap.OnMapLongClickListener{
 
     var gMap : GoogleMap? = null
-    var usersNearProfile : HashMap<String, User>? = null
+    var usersNearProfile : HashMap<String, Usuario>? = null
     var usersNearMarker : HashMap<String, Marker>? = null
     var mpsNearProfile: HashMap<String, MeetingPoint>? = null
     var mpsNearMarker: HashMap<String, Marker>? = null
     var databaseReference : DatabaseReference? = null
-    var user : User? = null
+    var user : Usuario? = null
 
     var geoFireUsers : GeoFire? = null
     var geoFireMeetingPoints : GeoFire? = null
@@ -163,7 +163,7 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback, GoogleMap.OnMapLon
                         }
 
                         override fun onDataChange(p0: DataSnapshot?) {
-                            val usrProxy : User? = p0?.getValue(User::class.java)
+                            val usrProxy : Usuario? = p0?.getValue(Usuario::class.java)
 
                             val marker : Marker? = gMap?.addMarker(MarkerOptions()
                                     .title(usrProxy?.apodo)

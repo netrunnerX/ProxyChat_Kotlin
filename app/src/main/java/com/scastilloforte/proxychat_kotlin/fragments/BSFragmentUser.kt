@@ -8,17 +8,14 @@ import android.os.Bundle
 import android.support.design.widget.BottomSheetBehavior
 import android.support.design.widget.BottomSheetDialogFragment
 import android.support.design.widget.CoordinatorLayout
-import android.support.v7.widget.AppCompatButton
 import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.database.*
 import com.scastilloforte.proxychat_kotlin.R
 import com.scastilloforte.proxychat_kotlin.activities.ChatActivity
-import com.scastilloforte.proxychat_kotlin.models.User
+import com.scastilloforte.proxychat_kotlin.models.Usuario
 import kotlinx.android.synthetic.main.bs_info_user.*
 
 /**
@@ -38,8 +35,8 @@ class BSFragmentUser : BottomSheetDialogFragment() {
         }
     }
 
-    var user : User? = null
-    var contact : User? = null
+    var user : Usuario? = null
+    var contact : Usuario? = null
     var databaseReference : DatabaseReference? = null
 
     @SuppressLint("RestrictedApi")
@@ -56,7 +53,7 @@ class BSFragmentUser : BottomSheetDialogFragment() {
             behavior.setBottomSheetCallback(bottomSheetBehaviorCallback)
         }
 
-        user = arguments.getSerializable("user") as User
+        user = arguments.getSerializable("user") as Usuario
 
 
         databaseReference = FirebaseDatabase.getInstance().reference
@@ -64,7 +61,7 @@ class BSFragmentUser : BottomSheetDialogFragment() {
         databaseReference!!.child("usuarios").child(arguments.getString("contactid")!!)
                 .addValueEventListener(object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
-                        contact = dataSnapshot.getValue(User::class.java)
+                        contact = dataSnapshot.getValue(Usuario::class.java)
 
                         tvApodoPerfil.text = contact?.apodo
 

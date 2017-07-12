@@ -5,17 +5,14 @@ import android.app.ProgressDialog
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v7.widget.AppCompatButton
 import android.text.TextUtils
-import android.view.View
-import android.widget.EditText
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import com.google.firebase.iid.FirebaseInstanceId
 import com.scastilloforte.proxychat_kotlin.R
-import com.scastilloforte.proxychat_kotlin.models.User
+import com.scastilloforte.proxychat_kotlin.models.Usuario
 import kotlinx.android.synthetic.main.activity_login.*
 
 class Login : AppCompatActivity() {
@@ -50,7 +47,7 @@ class Login : AppCompatActivity() {
             databaseReference!!.child("usuarios").child(userId)
                     .addListenerForSingleValueEvent(object : ValueEventListener {
                         override fun onDataChange(p0: DataSnapshot?) {
-                            val usr : User? = p0?.getValue(User::class.java)
+                            val usr : Usuario? = p0?.getValue(Usuario::class.java)
 
                             databaseReference!!.child("tokens").child(userId).child(token).setValue(true)
 
@@ -103,7 +100,7 @@ class Login : AppCompatActivity() {
                         databaseReference!!.child("usuarios").child(userId)
                                 .addListenerForSingleValueEvent(object : ValueEventListener {
                                     override fun onDataChange(p0: DataSnapshot?) {
-                                        val usr : User? = p0?.getValue(User::class.java)
+                                        val usr : Usuario? = p0?.getValue(Usuario::class.java)
 
                                         databaseReference!!.child("tokens").child(userId).child(token).setValue(true)
 
