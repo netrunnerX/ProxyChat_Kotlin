@@ -26,8 +26,8 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback, GoogleMap.OnMapLon
     var gMap : GoogleMap? = null
     var usersNearProfile : HashMap<String, Usuario>? = null
     var usersNearMarker : HashMap<String, Marker>? = null
-    var mpsNearProfile: HashMap<String, MeetingPoint>? = null
-    var mpsNearMarker: HashMap<String, Marker>? = null
+    var mpsNearbyProfile: HashMap<String, MeetingPoint>? = null
+    var mpsNearbyMarker: HashMap<String, Marker>? = null
     var databaseReference : DatabaseReference? = null
     var user : Usuario? = null
 
@@ -54,8 +54,8 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback, GoogleMap.OnMapLon
     override fun onMapReady(p0: GoogleMap?) {
         usersNearMarker = HashMap()
         usersNearProfile = HashMap()
-        mpsNearMarker = HashMap()
-        mpsNearProfile = HashMap()
+        mpsNearbyMarker = HashMap()
+        mpsNearbyProfile = HashMap()
 
         gMap = p0
 
@@ -105,6 +105,12 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback, GoogleMap.OnMapLon
                 }
                 else if (tag.startsWith("p:")) {
                     //Codugo que muestra la informacion del punto de encuentro
+                    val bsdf : BottomSheetDialogFragment = BSFragmentUser()
+                    val bundle : Bundle = Bundle()
+                    bundle.putSerializable("user", user)
+                    bundle.putString("meetingpointid", tag.substring(2))
+                    bsdf.arguments = bundle
+                    bsdf.show(activity.supportFragmentManager, bsdf.tag)
                     return true
                 }
                 return false
@@ -201,7 +207,79 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback, GoogleMap.OnMapLon
     }
 
     fun searchNearbyMeetingPoints() {
+        //Crea una nueva consulta por localizacion
+        geoQueryMeetingPoints = geoFireMeetingPoints!!.queryAtLocation(geoLocation, GEOQUERY_RADIUS)
+        //Añade a la consulta un escuchador GeoQuery
+        geoQueryMeetingPoints!!.addGeoQueryEventListener(object : GeoQueryEventListener {
 
+            /**
+             * onKeyEntered: metodo que se ejecuta cuando un punto de encuentro entra en el radio de alcance de la consulta
+             * @param key clave que identifica al punto de encuentro (meeting point id)
+             * *
+             * @param location localizacion del punto de encuentro
+             */
+            override fun onKeyEntered(key: String, location: GeoLocation) {
+
+                //Realiza una consulta para obtener los datos del punto de encuentro
+                databaseReference!!.child("meeting_points").child(key)
+                        .addListenerForSingleValueEvent(object : ValueEventListener {
+                            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                //Obtiene un objeto MeetingPoint con los datos del punto de encuentro
+                                //a partir del DataSnapshot
+                                val meetingPoint = dataSnapshot.getValue(MeetingPoint::class.java)
+
+                                //Añade al mapa un marcador ubicado en la localizacion del punto de encuentro
+                                val marker = gMap!!.addMarker(MarkerOptions().title(meetingPoint.nombre)
+                                        .position(LatLng(location.latitude, location.longitude))
+                                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)))
+                                marker.tag = "p:" + meetingPoint.id
+
+                                //Añade el objeto MeetingPoint al map de puntos de encuentro cercanos
+                                mpsNearbyProfile!!.put(key, meetingPoint)
+                                //Añade el marcador al map de marcadores de puntos de encuentro cercanos
+                                mpsNearbyMarker!!.put(key, marker)
+
+                            }
+
+                            override fun onCancelled(databaseError: DatabaseError) {
+
+                            }
+                })
+            }
+
+            /**
+             * onKeyExited: metodo que se ejecuta cuando un punto de encuentro sale del radio de alcance de la consulta
+             * @param key clave que identifica al punto de encuentro (meeting point id)
+             */
+            override fun onKeyExited(key: String) {
+                //Elimina el marcador del mapa
+                mpsNearbyMarker?.get(key)?.remove()
+                //Elimina el marcador de la lista de marcadores
+                mpsNearbyMarker?.remove(key)
+                //Elimina el marcador de la lista de puntos de encuentro
+                mpsNearbyProfile?.remove(key)
+            }
+
+            /**
+             * onKeyMoved: este metodo se ejecuta cuando un punto de encuentro cambia su localizacion dentro del
+             * radio de alcance
+             * @param key clave del marcador, identifica al punto de encuentro
+             * *
+             * @param location nueva localizacion
+             */
+            override fun onKeyMoved(key: String, location: GeoLocation) {
+                //Actualiza la ubicacion en el mapa del marcador que representa al punto de encuentro
+                mpsNearbyMarker?.get(key)?.position = LatLng(location.latitude, location.longitude)
+            }
+
+            override fun onGeoQueryReady() {
+
+            }
+
+            override fun onGeoQueryError(error: DatabaseError) {
+
+            }
+        })
     }
 
     override fun onMapLongClick(p0: LatLng?) {

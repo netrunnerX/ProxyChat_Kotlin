@@ -77,9 +77,9 @@ class BSFragmentUser : BottomSheetDialogFragment() {
                     }
                 })
 
-        botonAgregarContacto.setOnClickListener(View.OnClickListener { v -> addContact(v) })
+        botonAgregarContacto.setOnClickListener{ v -> addContact(v) }
 
-        botonEnviarMensajeUsuario.setOnClickListener(View.OnClickListener { v -> iniciarChat(v) })
+        botonEnviarMensajeUsuario.setOnClickListener{ v -> iniciarChat(v) }
     }
 
     /**
