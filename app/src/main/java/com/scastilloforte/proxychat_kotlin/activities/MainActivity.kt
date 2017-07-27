@@ -9,7 +9,7 @@ import android.os.Bundle
 
 import com.scastilloforte.proxychat_kotlin.R
 import com.scastilloforte.proxychat_kotlin.fragments.MapFragment
-import com.scastilloforte.proxychat_kotlin.models.Usuario
+import com.scastilloforte.proxychat_kotlin.modelos.Usuario
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {

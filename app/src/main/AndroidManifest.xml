@@ -15,7 +15,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.scastilloforte.proxychat_kotlin.activities.Login">
+        <activity android:name="com.scastilloforte.proxychat_kotlin.activities.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,7 +26,7 @@
             android:name=".activities.MainActivity"
             android:label="ProxyChatK"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activities.Register"></activity>
+        <activity android:name=".activities.RegistroActivity"></activity>
 
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"

@@ -1,4 +1,4 @@
-package com.scastilloforte.proxychat_kotlin.models
+package com.scastilloforte.proxychat_kotlin.modelos
 
 import java.io.Serializable
 

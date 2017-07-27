@@ -15,8 +15,17 @@ import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.database.*
 import com.scastilloforte.proxychat_kotlin.R
 import com.scastilloforte.proxychat_kotlin.activities.ChatActivity
-import com.scastilloforte.proxychat_kotlin.models.Usuario
+import com.scastilloforte.proxychat_kotlin.modelos.Usuario
 import kotlinx.android.synthetic.main.bs_info_user.*
+import com.google.firebase.database.DatabaseError
+import android.support.design.widget.Snackbar
+import android.support.annotation.NonNull
+import com.google.android.gms.tasks.OnFailureListener
+import com.google.android.gms.tasks.OnSuccessListener
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.ValueEventListener
+
+
 
 /**
  * Created by netx on 2/07/17.
@@ -90,34 +99,57 @@ class BSFragmentUser : BottomSheetDialogFragment() {
 
         //Realiza una consulta en la referencia de la base de datos donde se encuentran almacenados
         //los contactos del usuario para comprobar si el contacto ya existe en la lista
-        databaseReference!!.child("contactos").child("usuarios").child(user?.id).child("usuarios")
-                .child(contact?.id)
-                .addListenerForSingleValueEvent(object : ValueEventListener {
+        databaseReference!!.child("contactos").child("usuarios").child(user!!.id).child("usuarios")
+                .child(contact!!.id).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 //Obtiene el valor booleano que contiene el nodo contacto
-                val bContact = dataSnapshot.getValue(Boolean::class.java)
+                val bContacto = dataSnapshot.getValue(Boolean::class.java)
 
                 //Si el valor no es nulo, significa que el nodo del contacto existe en la lista,
                 //por lo que no es necesario agregarlo
-                if (bContact != null) {
-                    //Muestra un Toast informando al usuario de que el contacto ya existe en la lista
+                if (bContacto != null) {
+                    //Muestra un Snackbar informando al usuario de que el contacto ya existe en la lista
                     //de contactos
-                    Toast.makeText(context,
-                            "El usuario ya existe en la lista de contactos", Toast.LENGTH_LONG).show()
+                    Snackbar.make(v, "El usuario ya existe en la lista de contactos",
+                            Snackbar.LENGTH_LONG).show()
                 } else {
-                    //Almacena en la base de datos el nuevo contacto
-                    databaseReference!!.child("contactos").child("usuarios").child(user?.id).child("usuarios")
-                            .child(contact?.id).setValue(true).addOnSuccessListener {
-                        //Muestra un Toast informando al usuario de que el contacto ha sido añadido
-                        //a la lista de contactos
-                        Toast.makeText(context,
-                                "Contacto agregado", Toast.LENGTH_LONG).show()
-                    }.addOnFailureListener {
-                        //Muestra un Toast informando al usuario de que hubo un error en la
-                        //operacion
-                        Toast.makeText(context,
-                                "Error al agregar el contacto", Toast.LENGTH_LONG).show()
-                    }
+
+                    databaseReference!!.child("invitaciones")
+                            .child("usuarios")
+                            .child(contact!!.id)
+                            .child(user!!.id).addListenerForSingleValueEvent(object : ValueEventListener {
+                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+                            val b = dataSnapshot.getValue(java.lang.Boolean.TYPE)
+
+                            if (b == null) {
+                                //Almacena en la base de datos el nuevo contacto
+                                databaseReference!!.child("invitaciones")
+                                        .child("usuarios")
+                                        .child(contact!!.id)
+                                        .child(user!!.id)
+                                        .setValue(true).addOnSuccessListener {
+                                    //Muestra un Snackbar informando al usuario de que el contacto h
+                                    // a sido añadido
+                                    //a la lista de contactos
+                                    Snackbar.make(v, "Petición de contacto enviada",
+                                            Snackbar.LENGTH_LONG).show()
+                                }.addOnFailureListener {
+                                    //Muestra un Snackbar informando al usuario de que hubo un error en la
+                                    //operacion
+                                    Snackbar.make(v, "Error al enviar la petición de contacto",
+                                            Snackbar.LENGTH_LONG).show()
+                                }
+                            } else {
+                                Snackbar.make(v, "Ya has enviado una petición de contacto al usuario",
+                                        Snackbar.LENGTH_LONG).show()
+                            }
+                        }
+
+                        override fun onCancelled(databaseError: DatabaseError) {
+
+                        }
+                    })
+
                 }//Si el contacto no existe en la lista
             }
 

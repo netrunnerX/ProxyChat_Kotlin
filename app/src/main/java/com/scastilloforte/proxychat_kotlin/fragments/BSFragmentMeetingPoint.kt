@@ -10,8 +10,8 @@ import android.view.View
 import android.widget.Toast
 import com.google.firebase.database.*
 import com.scastilloforte.proxychat_kotlin.R
-import com.scastilloforte.proxychat_kotlin.models.MeetingPoint
-import com.scastilloforte.proxychat_kotlin.models.Usuario
+import com.scastilloforte.proxychat_kotlin.modelos.MeetingPoint
+import com.scastilloforte.proxychat_kotlin.modelos.Usuario
 import kotlinx.android.synthetic.main.bs_info_meetingpoint.*
 
 /**

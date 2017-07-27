@@ -18,12 +18,12 @@ import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
 import com.scastilloforte.proxychat_kotlin.BuildConfig
 import com.scastilloforte.proxychat_kotlin.R
-import com.scastilloforte.proxychat_kotlin.models.Usuario
+import com.scastilloforte.proxychat_kotlin.modelos.Usuario
 import kotlinx.android.synthetic.main.activity_register.*
 import java.io.FileNotFoundException
 import java.io.InputStream
 
-class Register : AppCompatActivity() {
+class RegistroActivity : AppCompatActivity() {
 
     var databaseReference : DatabaseReference? = null
     var progressDialog : ProgressDialog? = null
@@ -155,7 +155,7 @@ class Register : AppCompatActivity() {
 
                                         bundle.putSerializable("user", user)
 
-                                        var i = Intent(this@Register, MainActivity::class.java)
+                                        var i = Intent(this@RegistroActivity, MainActivity::class.java)
                                         i.putExtras(bundle)
 
                                         startActivity(i)

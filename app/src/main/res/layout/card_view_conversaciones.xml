@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.v7.widget.CardView
+
+        android:id="@+id/cardViewConversaciones"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        app:cardBackgroundColor="#e2e2e2">
+
+        <LinearLayout
+            android:id="@+id/fondoMensaje"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:orientation="horizontal">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/ivFotoConv"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_gravity="left"
+                android:layout_marginLeft="5dp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center_vertical">
+                <TextView
+                    android:id="@+id/tvNombreC"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="6dp"
+                    android:paddingTop="10dp"
+                    android:text="Usuario"
+                    android:textColor="#ff8000"/>
+                <TextView
+                    android:id="@+id/tvUltimoMensaje"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="6dp"
+                    android:paddingBottom="10dp"
+                    android:maxWidth="240sp"
+                    android:text="eeioifejfoiejfoejof" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+</RelativeLayout>
+

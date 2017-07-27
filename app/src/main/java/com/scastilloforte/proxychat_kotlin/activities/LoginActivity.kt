@@ -12,10 +12,10 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import com.google.firebase.iid.FirebaseInstanceId
 import com.scastilloforte.proxychat_kotlin.R
-import com.scastilloforte.proxychat_kotlin.models.Usuario
+import com.scastilloforte.proxychat_kotlin.modelos.Usuario
 import kotlinx.android.synthetic.main.activity_login.*
 
-class Login : AppCompatActivity() {
+class LoginActivity : AppCompatActivity() {
 
     private var firebaseAuth: FirebaseAuth? = null
     private var progressDialog: ProgressDialog? = null
@@ -54,7 +54,7 @@ class Login : AppCompatActivity() {
                             val bundle : Bundle = Bundle()
                             bundle.putSerializable("user", usr)
 
-                            val i = Intent(this@Login, MainActivity::class.java)
+                            val i = Intent(this@LoginActivity, MainActivity::class.java)
                             i.putExtras(bundle)
 
                             finish()
@@ -107,7 +107,7 @@ class Login : AppCompatActivity() {
                                         val bundle : Bundle = Bundle()
                                         bundle.putSerializable("user", usr)
 
-                                        val i = Intent(this@Login, MainActivity::class.java)
+                                        val i = Intent(this@LoginActivity, MainActivity::class.java)
                                         i.putExtras(bundle)
 
                                         finish()
@@ -132,7 +132,7 @@ class Login : AppCompatActivity() {
     }
 
     fun register() {
-        startActivityForResult(Intent(this@Login, Register::class.java), 10)
+        startActivityForResult(Intent(this@LoginActivity, RegistroActivity::class.java), 10)
 
     }
 
