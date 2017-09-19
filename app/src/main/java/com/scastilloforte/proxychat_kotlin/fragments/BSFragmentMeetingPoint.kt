@@ -7,16 +7,14 @@ import android.os.Bundle
 import android.support.design.widget.BottomSheetBehavior
 import android.support.design.widget.BottomSheetDialogFragment
 import android.support.design.widget.CoordinatorLayout
-import android.support.design.widget.Snackbar
 import android.view.View
-import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.database.*
 import com.scastilloforte.proxychat_kotlin.R
 import com.scastilloforte.proxychat_kotlin.activities.MeetingPointActivity
 import com.scastilloforte.proxychat_kotlin.modelos.MeetingPoint
 import com.scastilloforte.proxychat_kotlin.modelos.Usuario
-import kotlinx.android.synthetic.main.bs_info_meetingpoint.*
+import kotlinx.android.synthetic.main.bs_info_meetingpoint.view.*
 
 /**
  * Created by netx on 7/12/17.
@@ -46,7 +44,7 @@ class BSFragmentMeetingPoint : BottomSheetDialogFragment() {
         val contentView : View = View.inflate(context, R.layout.bs_info_meetingpoint, null)
         dialog?.setContentView(contentView)
 
-        val params = (contentView.parent as View).layoutParams as CoordinatorLayout.LayoutParams
+        val params = (contentView!!.parent as View).layoutParams as CoordinatorLayout.LayoutParams
         val behavior = params.behavior
 
         if (behavior != null && behavior is BottomSheetBehavior) {
@@ -62,8 +60,8 @@ class BSFragmentMeetingPoint : BottomSheetDialogFragment() {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
                         meetingPoint = dataSnapshot.getValue(MeetingPoint::class.java)
 
-                        tvNombreMeetingPoint.text = meetingPoint?.nombre
-                        tvDescMeetingPoint.text = meetingPoint?.descripcion
+                        contentView!!.tvNombreMeetingPoint.text = meetingPoint?.nombre
+                        contentView!!.tvDescMeetingPoint.text = meetingPoint?.descripcion
                     }
 
                     override fun onCancelled(databaseError: DatabaseError) {
@@ -71,7 +69,7 @@ class BSFragmentMeetingPoint : BottomSheetDialogFragment() {
                     }
                 })
 
-        botonUnirseMeetingPoint.setOnClickListener { addMeetingPoint() }
+        contentView!!.botonUnirseMeetingPoint.setOnClickListener { addMeetingPoint() }
 
     }
 
@@ -89,20 +87,21 @@ class BSFragmentMeetingPoint : BottomSheetDialogFragment() {
 
                         //Si el valor no es nulo, el punto de encuentro ya existe en la lista
                         if (bMeetingPoint != null) {
-
-                            Snackbar.make(view!!, "El punto de encuentro ya existe en la lista",
-                                    Snackbar.LENGTH_LONG).show()
+                            Toast.makeText(context, "El punto de encuentro ya existe en la lista",
+                                    Toast.LENGTH_LONG).show()
                         } else {
                             databaseReference!!.child("contactos").child("usuarios").child(user?.id).child("meeting_points")
                                     .child(meetingPoint?.id).setValue(true).addOnSuccessListener {
                                 //Muestra un Snackbar informando al usuario de que el punto de encuentro
                                 //ha sido añadido a la lista
-                                Snackbar.make(view!!, "Punto de encuentro agregado", Toast.LENGTH_LONG).show()
+                                Toast.makeText(context, "Punto de encuentro agregado", Toast.LENGTH_LONG).show()
                                 iniciarMeetingPoint()
                             }.addOnFailureListener {
                                 //Muestra un Snackbar informando al usuario de que hubo un error en la
                                 //operacion
-                                Snackbar.make(view!!, "Error al agregar el contacto", Toast.LENGTH_LONG).show()
+                                dismiss()
+                                Toast.makeText(context, "Error al agregar el punto de encuentro",
+                                        Toast.LENGTH_LONG).show()
                             }
                         }
                     }

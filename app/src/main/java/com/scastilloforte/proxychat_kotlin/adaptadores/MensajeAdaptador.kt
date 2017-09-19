@@ -1,27 +1,17 @@
 package com.scastilloforte.proxychat_kotlin.adaptadores
 
-import com.scastilloforte.proxychat_kotlin.R.id.tvHora
 import android.widget.TextView
-import com.scastilloforte.proxychat_kotlin.R.id.tvMensaje
-import com.scastilloforte.proxychat_kotlin.R.id.tvNombre
-import com.scastilloforte.proxychat_kotlin.R.id.cardViewMensajes
 import android.support.v7.widget.CardView
-import com.scastilloforte.proxychat_kotlin.R.id.fondoMensaje
 import android.widget.LinearLayout
 import android.support.v7.widget.RecyclerView
 import android.view.Gravity
-import android.R.attr.gravity
 import android.widget.RelativeLayout
-import com.scastilloforte.proxychat_kotlin.R.drawable.globoazul
-import com.scastilloforte.proxychat_kotlin.R.drawable.globoverde
 import android.widget.FrameLayout
-import com.scastilloforte.proxychat_kotlin.R.layout.card_view_mensajes
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.scastilloforte.proxychat_kotlin.R
 import com.scastilloforte.proxychat_kotlin.modelos.Mensaje
-import kotlinx.android.synthetic.main.card_view_mensajes.*
 import kotlinx.android.synthetic.main.card_view_mensajes.view.*
 
 

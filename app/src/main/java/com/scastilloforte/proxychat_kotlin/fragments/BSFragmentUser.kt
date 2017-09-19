@@ -9,7 +9,6 @@ import android.support.design.widget.BottomSheetBehavior
 import android.support.design.widget.BottomSheetDialogFragment
 import android.support.design.widget.CoordinatorLayout
 import android.view.View
-import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.database.*
@@ -19,12 +18,10 @@ import com.scastilloforte.proxychat_kotlin.modelos.Usuario
 import kotlinx.android.synthetic.main.bs_info_user.*
 import com.google.firebase.database.DatabaseError
 import android.support.design.widget.Snackbar
-import android.support.annotation.NonNull
-import com.google.android.gms.tasks.OnFailureListener
-import com.google.android.gms.tasks.OnSuccessListener
+import android.widget.Toast
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.ValueEventListener
-
+import kotlinx.android.synthetic.main.bs_info_user.view.*
 
 
 /**
@@ -72,7 +69,7 @@ class BSFragmentUser : BottomSheetDialogFragment() {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
                         contact = dataSnapshot.getValue(Usuario::class.java)
 
-                        tvApodoPerfil.text = contact?.apodo
+                        contentView.tvApodoPerfil.text = contact?.apodo
 
                         val uri = Uri.parse(contact?.imagenUrl)
                         Glide.with(context)
@@ -86,9 +83,9 @@ class BSFragmentUser : BottomSheetDialogFragment() {
                     }
                 })
 
-        botonAgregarContacto.setOnClickListener{ v -> addContact(v) }
+        contentView.botonAgregarContacto.setOnClickListener{ v -> addContact(v) }
 
-        botonEnviarMensajeUsuario.setOnClickListener{ v -> iniciarChat(v) }
+        contentView.botonEnviarMensajeUsuario.setOnClickListener{ v -> iniciarChat(v) }
     }
 
     /**
@@ -131,17 +128,17 @@ class BSFragmentUser : BottomSheetDialogFragment() {
                                     //Muestra un Snackbar informando al usuario de que el contacto h
                                     // a sido añadido
                                     //a la lista de contactos
-                                    Snackbar.make(v, "Petición de contacto enviada",
-                                            Snackbar.LENGTH_LONG).show()
+                                    Toast.makeText(context, "Petición de contacto enviada",
+                                            Toast.LENGTH_LONG).show()
                                 }.addOnFailureListener {
                                     //Muestra un Snackbar informando al usuario de que hubo un error en la
                                     //operacion
-                                    Snackbar.make(v, "Error al enviar la petición de contacto",
-                                            Snackbar.LENGTH_LONG).show()
+                                    Toast.makeText(context, "Error al enviar la petición de contacto",
+                                            Toast.LENGTH_LONG).show()
                                 }
                             } else {
-                                Snackbar.make(v, "Ya has enviado una petición de contacto al usuario",
-                                        Snackbar.LENGTH_LONG).show()
+                                Toast.makeText(context, "Ya has enviado una petición de contacto al usuario",
+                                        Toast.LENGTH_LONG).show()
                             }
                         }
 

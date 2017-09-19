@@ -5,10 +5,7 @@ import com.google.firebase.database.DataSnapshot
 import com.scastilloforte.proxychat_kotlin.modelos.Mensaje
 import com.google.firebase.database.ChildEventListener
 import android.text.TextUtils
-import android.widget.ImageButton
-import android.widget.EditText
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import com.google.firebase.database.FirebaseDatabase
 import com.scastilloforte.proxychat_kotlin.modelos.Usuario
 import com.scastilloforte.proxychat_kotlin.modelos.MeetingPoint
@@ -21,7 +18,6 @@ import com.google.firebase.database.DatabaseReference
 import com.scastilloforte.proxychat_kotlin.R
 import com.scastilloforte.proxychat_kotlin.adaptadores.MensajeAdaptador
 import kotlinx.android.synthetic.main.mensajes.*
-import kotlinx.android.synthetic.main.mensajes.view.*
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList

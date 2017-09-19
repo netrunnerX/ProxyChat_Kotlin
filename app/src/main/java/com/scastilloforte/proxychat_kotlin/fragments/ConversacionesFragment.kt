@@ -1,12 +1,8 @@
 package com.scastilloforte.proxychat_kotlin.fragments
 
 import android.support.design.widget.Snackbar
-import android.support.annotation.NonNull
-import com.google.android.gms.tasks.OnFailureListener
-import com.google.android.gms.tasks.OnSuccessListener
 import android.content.DialogInterface
 import com.google.firebase.database.DatabaseError
-import android.support.v4.content.ContextCompat.startActivity
 import com.scastilloforte.proxychat_kotlin.activities.ChatActivity
 import android.content.Intent
 import android.os.Bundle
@@ -24,7 +20,6 @@ import android.support.v7.app.AlertDialog
 import com.google.firebase.database.FirebaseDatabase
 import android.support.v7.widget.LinearLayoutManager
 import android.widget.TextView
-import com.scastilloforte.proxychat_kotlin.R.id.recyclerview
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
 import android.view.LayoutInflater

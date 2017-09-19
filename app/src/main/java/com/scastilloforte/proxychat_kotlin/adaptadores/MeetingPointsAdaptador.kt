@@ -1,16 +1,13 @@
 package com.scastilloforte.proxychat_kotlin.adaptadores
 
-import android.R.attr.onClick
 import android.widget.TextView
 import android.support.v7.widget.CardView
-import android.view.View.OnLongClickListener
 import android.support.v7.widget.RecyclerView
 import com.google.firebase.database.DatabaseError
 import com.scastilloforte.proxychat_kotlin.modelos.MeetingPoint
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.DatabaseReference
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
