@@ -78,7 +78,7 @@ class UsuariosAdaptador (val context: Context,
                         val usr = dataSnapshot.getValue(Usuario::class.java)
 
                         //Configura el texto del TextView que muestra el nombre del usuario
-                        holder.tvNombre.text = usr.apodo
+                        holder.tvNombre.text = usr!!.apodo
 
                         //Si el usuario es el propio usuario
                         if (usr.id == idUsuario) {

@@ -147,7 +147,7 @@ class ConversacionesFragment : Fragment(), OnItemClickListener, OnItemLongClickL
              * *
              * @param s
              */
-            override fun onChildAdded(dataSnapshot: DataSnapshot, s: String) {
+            override fun onChildAdded(dataSnapshot: DataSnapshot, s: String?) {
                 //Declara un objeto Mensaje que contendra el ultimo mensaje
                 var ultimoMensaje: Mensaje? = null
 
@@ -166,9 +166,9 @@ class ConversacionesFragment : Fragment(), OnItemClickListener, OnItemLongClickL
                 //Obtiene el nombre del emisor
                 val emisor = ultimoMensaje.emisor
                 //Obtiene el id del receptor
-                val idReceptor = ultimoMensaje.idReceptores[0]
+                val idReceptor = ultimoMensaje.idReceptores!![0]
                 //Obtiene el nombre del receptor
-                val receptor = ultimoMensaje.receptores[0]
+                val receptor = ultimoMensaje.receptores!![0]
 
                 //Declara una variable para almacenar el nombre del contacto de la conversacion
                 val contacto: String
@@ -182,15 +182,15 @@ class ConversacionesFragment : Fragment(), OnItemClickListener, OnItemLongClickL
                     idContacto = idReceptor
                 } else {
                     //Establece como contacto el emisor del mensaje
-                    contacto = emisor
-                    idContacto = idEmisor
+                    contacto = emisor!!
+                    idContacto = idEmisor!!
                 }//Por otra parte, si el receptor del mensaje es el usuario
 
                 //Obtiene el texto del mensaje
                 var ultMensaje = ultimoMensaje.mensaje
 
                 //Si la longitud del texto del mensaaje es mayor de 25 caracteres
-                if (ultMensaje.length > 25) {
+                if (ultMensaje!!.length > 25) {
                     //Acota el mensaje a 25 caracteres y le concatena puntos suspensivos
                     ultMensaje = ultMensaje.substring(0, 25) + "..."
                 }
@@ -216,7 +216,7 @@ class ConversacionesFragment : Fragment(), OnItemClickListener, OnItemLongClickL
              * *
              * @param s
              */
-            override fun onChildChanged(dataSnapshot: DataSnapshot, s: String) {
+            override fun onChildChanged(dataSnapshot: DataSnapshot, s: String?) {
                 //Declara un objeto Mensaje que contendra el ultimo mensaje
                 var ultimoMensaje: Mensaje? = null
 
@@ -235,9 +235,9 @@ class ConversacionesFragment : Fragment(), OnItemClickListener, OnItemLongClickL
                 //Obtiene el id del emisor
                 val idEmisor = ultimoMensaje!!.idEmisor
                 //Obtiene el nombre del receptor
-                val receptor = ultimoMensaje!!.receptores[0]
+                val receptor = ultimoMensaje!!.receptores!![0]
                 //Obtiene el id del receptor
-                val idReceptor = ultimoMensaje!!.idReceptores[0]
+                val idReceptor = ultimoMensaje!!.idReceptores!![0]
 
                 //Declara una variable para almacenar el nombre del contacto de la conversacion
                 val contacto: String
@@ -251,28 +251,28 @@ class ConversacionesFragment : Fragment(), OnItemClickListener, OnItemLongClickL
                     idContacto = idReceptor
                 } else {
                     //Establece como contacto el emisor del mensaje
-                    contacto = emisor
-                    idContacto = idEmisor
+                    contacto = emisor!!
+                    idContacto = idEmisor!!
                 }//Por otra parte, si el receptor del mensaje es el usuario
 
                 //Obtiene el texto del mensaje
                 var ultMensaje = ultimoMensaje!!.mensaje
 
                 //Si la longitud del texto del mensaaje es mayor de 25 caracteres
-                if (ultMensaje.length > 25) {
+                if (ultMensaje!!.length > 25) {
                     //Acota el mensaje a 25 caracteres y le concatena puntos suspensivos
-                    ultMensaje = ultMensaje.substring(0, 25) + "..."
+                    ultMensaje = ultMensaje!!.substring(0, 25) + "..."
                 }
 
                 //Crea una conversacion con los datos del mensaje
-                val (_, idContacto1, ultimoMensaje1) = Conversacion(contacto, idContacto, ultMensaje)
+                val conversacion = Conversacion(contacto, idContacto, ultMensaje)
 
                 //Recorre la lista de conversaciones
                 for (i in conversaciones!!.indices) {
                     //Si encuentra en la lista la conversacion cuyo id es el id del contacto
-                    if (conversaciones!![i].idContacto == idContacto1) {
+                    if (conversaciones!![i].idContacto == conversacion.idContacto) {
                         //Actualiza el ultimo mensaje de la conversacion
-                        conversaciones!![i].ultimoMensaje = ultimoMensaje1
+                        conversaciones!![i].ultimoMensaje = conversacion.ultimoMensaje
                         //Notifica al adaptador que hubo cambios en el conjunto de datos, de forma
                         //que este actualice el RecyclerView
                         conversacionesAdaptador!!.notifyDataSetChanged()
@@ -311,7 +311,7 @@ class ConversacionesFragment : Fragment(), OnItemClickListener, OnItemLongClickL
                 }
             }
 
-            override fun onChildMoved(dataSnapshot: DataSnapshot, s: String) {
+            override fun onChildMoved(dataSnapshot: DataSnapshot, s: String?) {
 
             }
 

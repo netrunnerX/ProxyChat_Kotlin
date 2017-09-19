@@ -1,6 +1,12 @@
 <resources>
-    <string name="app_name">ProxyChat_Kotlin</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="app_name">ProxyChat</string>
     <string name="action_settings">Settings</string>
+    <string name="action_perfil">Perfil</string>
+    <string name="action_usuarios">Usuarios</string>
     <string name="section_format">Hello World from section: %1$d</string>
+    <string name="title_activity_maps">Map</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_meeting_point">MeetingPointActivity</string>
 </resources>

@@ -111,7 +111,7 @@ class MeetingPointUsuariosFragment : Fragment(), OnItemClickListener {
                      * *
                      * @param s
                      */
-                    override fun onChildAdded(dataSnapshot: DataSnapshot, s: String) {
+                    override fun onChildAdded(dataSnapshot: DataSnapshot, s: String?) {
                         //Obtiene la clave que identifica al usuario a partir del DataSnapshot
                         val keyContacto = dataSnapshot.key
 
@@ -124,7 +124,7 @@ class MeetingPointUsuariosFragment : Fragment(), OnItemClickListener {
                         usuariosAdaptador!!.notifyDataSetChanged()
                     }
 
-                    override fun onChildChanged(dataSnapshot: DataSnapshot, s: String) {
+                    override fun onChildChanged(dataSnapshot: DataSnapshot, s: String?) {
 
                     }
 
@@ -132,7 +132,7 @@ class MeetingPointUsuariosFragment : Fragment(), OnItemClickListener {
 
                     }
 
-                    override fun onChildMoved(dataSnapshot: DataSnapshot, s: String) {
+                    override fun onChildMoved(dataSnapshot: DataSnapshot, s: String?) {
 
                     }
 

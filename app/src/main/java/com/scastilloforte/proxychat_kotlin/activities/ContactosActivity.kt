@@ -77,7 +77,7 @@ class ContactosActivity : AppCompatActivity(), OnItemClickListener, OnItemLongCl
         //del usuario
         databaseReference!!.child("contactos").child("usuarios").child(usuario!!.id!!).child("usuarios")
                 .addChildEventListener(object : ChildEventListener {
-                    override fun onChildAdded(dataSnapshot: DataSnapshot, s: String) {
+                    override fun onChildAdded(dataSnapshot: DataSnapshot, s: String?) {
                         //Obtiene el id del contacto a partir del DataSnapShot
                         val keyContacto = dataSnapshot.key
 
@@ -90,7 +90,7 @@ class ContactosActivity : AppCompatActivity(), OnItemClickListener, OnItemLongCl
                         contactosAdaptador!!.notifyDataSetChanged()
                     }
 
-                    override fun onChildChanged(dataSnapshot: DataSnapshot, s: String) {
+                    override fun onChildChanged(dataSnapshot: DataSnapshot, s: String?) {
 
                     }
 
@@ -108,7 +108,7 @@ class ContactosActivity : AppCompatActivity(), OnItemClickListener, OnItemLongCl
                         contactosAdaptador!!.notifyDataSetChanged()
                     }
 
-                    override fun onChildMoved(dataSnapshot: DataSnapshot, s: String) {
+                    override fun onChildMoved(dataSnapshot: DataSnapshot, s: String?) {
 
                     }
 

@@ -20,6 +20,7 @@ import android.view.View
 import com.google.firebase.database.DatabaseReference
 import com.scastilloforte.proxychat_kotlin.R
 import com.scastilloforte.proxychat_kotlin.adaptadores.MensajeAdaptador
+import kotlinx.android.synthetic.main.mensajes.*
 import kotlinx.android.synthetic.main.mensajes.view.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -36,9 +37,6 @@ import kotlin.collections.ArrayList
  */
 class MeetingPointChatFragment : Fragment() {
 
-    private var recyclerView: RecyclerView? = null
-    private var etMensaje: EditText? = null
-    private var botonEnviar: ImageButton? = null
     private var meetingPoint: MeetingPoint? = null
     private var usuario: Usuario? = null
     private var mensajes: ArrayList<Mensaje>? = null
@@ -83,9 +81,6 @@ class MeetingPointChatFragment : Fragment() {
         //Obtiene una referencia a la base de datos
         databaseReference = FirebaseDatabase.getInstance().reference
 
-        //Inicializa el RecyclerView
-        recyclerView = view.recyclerview
-
         //Crea un gestor LinearLayout
         val linearLayoutManager = LinearLayoutManager(context)
         //setStackFromEnd: cuando el RecyclerView rellena su contenido, empieza desde el final
@@ -93,26 +88,21 @@ class MeetingPointChatFragment : Fragment() {
         //lista se ajusta al borde del teclado
         linearLayoutManager.stackFromEnd = true
         //Configura el RecyclerView con el LinearLayoutManager
-        recyclerView!!.layoutManager = linearLayoutManager
+        recyclerview.layoutManager = linearLayoutManager
         //Crea un adaptador de mensajes
         mensajesAdaptador = MensajeAdaptador(mensajes!!)
         //Configura el RecyclerView con el adaptador de mensajes
-        recyclerView!!.adapter = mensajesAdaptador
+        recyclerview.adapter = mensajesAdaptador
 
         //Inicia la escucha de mensajes
         iniciarEscuchadorMensajes()
 
-        //Obtiene una intancia del campo de texto
-        etMensaje = view.etMensaje
-
-        //Obtiene una instancia para el boton de enviar
-        botonEnviar = view.botonEnviarProxy
         //Configura un escuchador de clicks en el boton
-        botonEnviar!!.setOnClickListener {
+        botonEnviarMensaje.setOnClickListener {
             //Si el campo de texto no esta vacio
-            if (!TextUtils.isEmpty(etMensaje!!.text.toString())) {
+            if (!TextUtils.isEmpty(etMensaje.text.toString())) {
                 //Llama al metodo encargado de enviar el mensaje
-                enviarMensaje(etMensaje!!.text.toString())
+                enviarMensaje(etMensaje.text.toString())
             }
         }
     }
@@ -150,7 +140,7 @@ class MeetingPointChatFragment : Fragment() {
      */
     fun setScrollBarMensajes() {
         //Realiza scroll hasta el final de la lista del RecyclerView
-        recyclerView!!.scrollToPosition(mensajesAdaptador!!.getItemCount() - 1)
+        recyclerview.scrollToPosition(mensajesAdaptador!!.getItemCount() - 1)
     }
 
 
@@ -172,12 +162,12 @@ class MeetingPointChatFragment : Fragment() {
              * *
              * @param s
              */
-            override fun onChildAdded(dataSnapshot: DataSnapshot, s: String) {
+            override fun onChildAdded(dataSnapshot: DataSnapshot, s: String?) {
 
                 //Obtiene el mensaje a partir del DataSnapShot
                 val mensajeTexto = dataSnapshot.getValue(Mensaje::class.java)
                 //Si el emisor del mensaje es el usuario
-                if (mensajeTexto.idEmisor != usuario!!.id)
+                if (mensajeTexto!!.idEmisor != usuario!!.id)
                 //Establece el tipo de mensaje en 1 (mensaje entrante)
                     mensajeTexto.tipoMensaje = 1
 
@@ -191,7 +181,7 @@ class MeetingPointChatFragment : Fragment() {
 
             }
 
-            override fun onChildChanged(dataSnapshot: DataSnapshot, s: String) {
+            override fun onChildChanged(dataSnapshot: DataSnapshot, s: String?) {
 
             }
 
@@ -199,7 +189,7 @@ class MeetingPointChatFragment : Fragment() {
 
             }
 
-            override fun onChildMoved(dataSnapshot: DataSnapshot, s: String) {
+            override fun onChildMoved(dataSnapshot: DataSnapshot, s: String?) {
 
             }
 
@@ -209,4 +199,4 @@ class MeetingPointChatFragment : Fragment() {
         })
 
     }
-}// Required empty public constructor
+}

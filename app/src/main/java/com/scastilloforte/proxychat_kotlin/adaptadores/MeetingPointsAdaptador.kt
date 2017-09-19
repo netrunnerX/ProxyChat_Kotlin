@@ -1,41 +1,33 @@
 package com.scastilloforte.proxychat_kotlin.adaptadores
 
-
-import android.content.Context
-import android.net.Uri
+import android.R.attr.onClick
 import android.widget.TextView
 import android.support.v7.widget.CardView
-
+import android.view.View.OnLongClickListener
 import android.support.v7.widget.RecyclerView
 import com.google.firebase.database.DatabaseError
-
-import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.Glide
-import com.scastilloforte.proxychat_kotlin.modelos.Usuario
+import com.scastilloforte.proxychat_kotlin.modelos.MeetingPoint
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.DatabaseReference
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import com.scastilloforte.proxychat_kotlin.R
 import com.scastilloforte.proxychat_kotlin.interfaces.OnItemClickListener
 import com.scastilloforte.proxychat_kotlin.interfaces.OnItemLongClickListener
-import com.scastilloforte.proxychat_kotlin.modelos.Conversacion
-import kotlinx.android.synthetic.main.card_view_conversaciones.view.*
+import kotlinx.android.synthetic.main.card_view_meeting_points.view.*
 
 
 /**
- * Created by netx on 7/27/17.
+ * Created by netx on 9/19/17.
  */
 /**
- * ConversacionesAdaptador: clase encargada de cargar en el RecyclerView de ConversacionesFragment
- * los items que muestran datos de las conversaciones
+ * MeetingPointsAdaptador: adaptador utilizado para cargar los items con los datos de cada punto de encuentro
+ * en el RecyclerView de MeetingPointsFragment
  */
-class ConversacionesAdaptador (val context: Context,
-                               val conversaciones: List<Conversacion>) :
-        RecyclerView.Adapter<ConversacionesAdaptador.ConversacionesViewHolder>() {
+class MeetingPointsAdaptador(val meetingPoints: List<String>) : RecyclerView.Adapter<MeetingPointsAdaptador.MeetingPointsViewHolder>() {
 
     //Los atributos clickListener y longClickListener nos permitira manejar eventos
     //de click en cada item desde la clase que crea la instancia del adaptador.
@@ -54,11 +46,11 @@ class ConversacionesAdaptador (val context: Context,
      * *
      * @return
      */
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ConversacionesViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MeetingPointsAdaptador.MeetingPointsViewHolder {
         //Crea un View usando el layout del item
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.card_view_conversaciones, parent, false)
+        val v = LayoutInflater.from(parent.context).inflate(R.layout.card_view_meeting_points, parent, false)
         //Crea objeto ConversacionesViewHolder, pasandole la vista como parametro
-        return ConversacionesViewHolder(v)
+        return MeetingPointsViewHolder(v)
     }
 
     /**
@@ -68,37 +60,24 @@ class ConversacionesAdaptador (val context: Context,
      * *
      * @param position posicion en el RecyclerView donde mostrara el item
      */
-    override fun onBindViewHolder(holder: ConversacionesViewHolder, position: Int) {
-
-        //Configura el TextView del nombre de la conversacion con el nombre del contacto
-        holder.tvNombre.text = conversaciones[position].contacto
-        //Configura el TextView del mensaje con el ultimo mensaje de la conversacion
-        holder.tvMensaje.text = conversaciones[position].ultimoMensaje
+    override fun onBindViewHolder(holder: MeetingPointsAdaptador.MeetingPointsViewHolder, position: Int) {
 
         //Obtiene una referencia a la base de datos
         val databaseReference = FirebaseDatabase.getInstance().reference
-        //Realiza una consulta a la base de datos para obtener la URL de la imagen del contacto
-        //de la conversacion
-        databaseReference.child("usuarios").child(conversaciones[position].idContacto)
-                .addValueEventListener(object : ValueEventListener {
-                    /**
-                     * onDataChange: este metodo es llamado cuando cambian los datos en la base de datos,
-                     * ademas de para obtener un resultado inicial
-                     * @param dataSnapshot
-                     */
+        //Realiza una consulta para obtener los datos del punto de encuentro
+        databaseReference.child("meeting_points").child(meetingPoints[position])
+                .addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
-                        //Obtiene un objeto Usuario con los datos del Contacto
-                        val usr = dataSnapshot.getValue(Usuario::class.java)
-                        //Instancia un objeto Uri con la URL de la imagen del contacto
-                        val fotoUri = Uri.parse(usr!!.imagenUrl)
+                        //Obtiene un objeto MeetingPoint con los datos del punto de encuentro a partir
+                        //del DataSnapshot
+                        val meetingPoint = dataSnapshot.getValue(MeetingPoint::class.java)
 
-                        //Descarga la imagen y la añade al ImageView de la imagen del contacto
-                        //utilizando la libreria Glide
-                        Glide.with(context.getApplicationContext())
-                                .load(fotoUri)
-                                .apply(RequestOptions().placeholder(R.drawable.iconouser).centerCrop())
-                                .into(holder.ivFotoContacto)
-
+                        //Configura el texto del TextView que muestra el nombre del punto de encuentro con
+                        //el nombre del punto de encuentro
+                        holder.tvNombre.text = meetingPoint!!.nombre
+                        //Configura el texto del TextView que muestra la descripcion del punto de encuentro con
+                        //la descripcion del punto de encuentro
+                        holder.tvDescripcion.text = meetingPoint!!.descripcion
                     }
 
                     override fun onCancelled(databaseError: DatabaseError) {
@@ -113,30 +92,28 @@ class ConversacionesAdaptador (val context: Context,
      * @return
      */
     override fun getItemCount(): Int {
-        //Como es equivalente al tamaño de la lista de conversaciones, se devuelve este
-        return conversaciones.size
+
+        //Como es equivalente al tamaño de la lista de puntos de encuentro, se devuelve este
+        return meetingPoints.size
     }
 
     /**
-     * ConversacionesViewHolder: clase que define un ViewHolder personalizado de conversaciones
+     * MeetingPointsViewHolder: clase que define un ViewHolder personalizado de puntos de encuentro
      */
-    inner class ConversacionesViewHolder (v: View) : RecyclerView.ViewHolder(v), View.OnClickListener, View.OnLongClickListener {
+    inner class MeetingPointsViewHolder (v: View) : RecyclerView.ViewHolder(v), View.OnClickListener, View.OnLongClickListener {
 
         var cardView: CardView
         var tvNombre: TextView
-        var tvMensaje: TextView
-        var ivFotoContacto: ImageView
+        var tvDescripcion: TextView
 
         init {
 
             //Instancia el CardView
-            cardView = v.cardViewConversaciones
-            //Instancia el TextView del nombre de la conversacion
-            tvNombre = v.tvNombreC
-            //Instancia el TextView del ultimo mensaje
-            tvMensaje = v.tvUltimoMensaje
-            //Instancia el ImageView de la imagen de contacto
-            ivFotoContacto = v.ivFotoConv
+            cardView = v.cardViewMeetingPoints
+            //Instancia el TextView que muestra el nombre del punto de encuentro
+            tvNombre = v.tvNombreMp
+            //Instancia el TextView que muestra la descripcion del puunto de encuentro
+            tvDescripcion = v.tvDescripcionMp
 
             //Configura un ClickListener para la vista
             v.setOnClickListener(this)
@@ -156,12 +133,6 @@ class ConversacionesAdaptador (val context: Context,
                 clickListener!!.onClick(v, adapterPosition)
         }
 
-        /**
-         * onLongClick: metodo llamado cuando se hace una pulsacion larga sobre la vista del item
-         * @param v
-         * *
-         * @return
-         */
         override fun onLongClick(v: View): Boolean {
 
             if (longClickListener != null) {

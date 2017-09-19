@@ -44,6 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="15dp"
+            android:layout_marginBottom="10dp"
             app:backgroundTint="#3A3A3A"
             android:text="Unirse"
             android:textColor="@android:color/holo_orange_dark" />

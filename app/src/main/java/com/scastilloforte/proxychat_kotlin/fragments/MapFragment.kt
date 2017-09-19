@@ -119,7 +119,7 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback, GoogleMap.OnMapLon
                 }
                 else if (tag.startsWith("p:")) {
                     //Codigo que muestra la informacion del punto de encuentro
-                    val bsdf : BottomSheetDialogFragment = BSFragmentUser()
+                    val bsdf : BottomSheetDialogFragment = BSFragmentMeetingPoint()
                     val bundle : Bundle = Bundle()
                     bundle.putSerializable("user", user)
                     bundle.putString("meetingpointid", tag.substring(2))
@@ -243,7 +243,7 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback, GoogleMap.OnMapLon
                                 val meetingPoint = dataSnapshot.getValue(MeetingPoint::class.java)
 
                                 //Añade al mapa un marcador ubicado en la localizacion del punto de encuentro
-                                val marker = gMap!!.addMarker(MarkerOptions().title(meetingPoint.nombre)
+                                val marker = gMap!!.addMarker(MarkerOptions().title(meetingPoint!!.nombre)
                                         .position(LatLng(location.latitude, location.longitude))
                                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)))
                                 marker.tag = "p:" + meetingPoint.id
