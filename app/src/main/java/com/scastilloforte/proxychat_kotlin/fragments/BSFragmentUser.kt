@@ -75,7 +75,7 @@ class BSFragmentUser : BottomSheetDialogFragment() {
                         Glide.with(context)
                                 .load(uri)
                                 .apply(RequestOptions().placeholder(R.drawable.iconouser).centerCrop())
-                                .into(ivFotoPerfil)
+                                .into(contentView.ivFotoPerfil)
                     }
 
                     override fun onCancelled(databaseError: DatabaseError) {
@@ -107,8 +107,8 @@ class BSFragmentUser : BottomSheetDialogFragment() {
                 if (bContacto != null) {
                     //Muestra un Snackbar informando al usuario de que el contacto ya existe en la lista
                     //de contactos
-                    Snackbar.make(v, "El usuario ya existe en la lista de contactos",
-                            Snackbar.LENGTH_LONG).show()
+                    Toast.makeText(context, "El usuario ya existe en la lista de contactos",
+                            Toast.LENGTH_LONG).show()
                 } else {
 
                     databaseReference!!.child("invitaciones")
