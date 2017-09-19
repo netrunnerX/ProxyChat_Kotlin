@@ -30,12 +30,20 @@ import kotlinx.android.synthetic.main.card_view_conversaciones.view.*
  * Created by netx on 7/27/17.
  */
 /**
- * ConversacionesAdaaptador: clase encargada de cargar en el RecyclerView de ConversacionesFragment
+ * ConversacionesAdaptador: clase encargada de cargar en el RecyclerView de ConversacionesFragment
  * los items que muestran datos de las conversaciones
  */
 class ConversacionesAdaptador (val context: Context,
                                val conversaciones: List<Conversacion>) :
         RecyclerView.Adapter<ConversacionesAdaptador.ConversacionesViewHolder>() {
+
+    //Los atributos clickListener y longClickListener nos permitira manejar eventos
+    //de click en cada item desde la clase que crea la instancia del adaptador.
+    //La clase que instancia al adaptador debera implementar las interfaces OnItemClickListener
+    //y OnItemLongClickListener, y establecerse a si misma como escuchador para poder gestionar
+    //los eventos de click en cada item del RecyclerView
+    private var clickListener: OnItemClickListener? = null
+    private var longClickListener: OnItemLongClickListener? = null
 
     /**
      * onCreateViewHolder: este metodo se ejecuta a la hora de crear un nuevo ViewHolder.
@@ -112,7 +120,7 @@ class ConversacionesAdaptador (val context: Context,
     /**
      * ConversacionesViewHolder: clase que define un ViewHolder personalizado de conversaciones
      */
-    class ConversacionesViewHolder (v: View) : RecyclerView.ViewHolder(v), View.OnClickListener, View.OnLongClickListener {
+    inner class ConversacionesViewHolder (v: View) : RecyclerView.ViewHolder(v), View.OnClickListener, View.OnLongClickListener {
 
         var cardView: CardView
         var tvNombre: TextView
@@ -169,7 +177,7 @@ class ConversacionesAdaptador (val context: Context,
      * @param clickListener escuchador de clicks
      */
     fun setOnItemClickListener(clickListener: OnItemClickListener) {
-        ConversacionesAdaptador.clickListener = clickListener
+        this.clickListener = clickListener
     }
 
     /**
@@ -177,18 +185,7 @@ class ConversacionesAdaptador (val context: Context,
      * @param longClickListener escuchador de clicks largos
      */
     fun setOnItemLongClickListener(longClickListener: OnItemLongClickListener) {
-        ConversacionesAdaptador.longClickListener = longClickListener
-    }
-
-    companion object {
-
-        //Los atributos estaticos clickListener y longClickListener nos permitira manejar eventos
-        //de click en cada item desde la clase que crea la instancia del adaptador.
-        //La clase que instancia al adaptador debera implementar las interfaces OnItemClickListener
-        //y OnItemLongClickListener, y establecerse a si misma como escuchador para poder gestionar
-        //los eventos de click en cada item del RecyclerView
-        private var clickListener: OnItemClickListener? = null
-        private var longClickListener: OnItemLongClickListener? = null
+        this.longClickListener = longClickListener
     }
 
 }

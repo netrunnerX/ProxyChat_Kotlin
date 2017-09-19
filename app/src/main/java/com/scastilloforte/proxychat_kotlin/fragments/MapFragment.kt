@@ -118,7 +118,7 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback, GoogleMap.OnMapLon
                     return true
                 }
                 else if (tag.startsWith("p:")) {
-                    //Codugo que muestra la informacion del punto de encuentro
+                    //Codigo que muestra la informacion del punto de encuentro
                     val bsdf : BottomSheetDialogFragment = BSFragmentUser()
                     val bundle : Bundle = Bundle()
                     bundle.putSerializable("user", user)

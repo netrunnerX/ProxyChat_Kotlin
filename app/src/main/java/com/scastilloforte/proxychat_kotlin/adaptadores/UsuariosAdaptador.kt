@@ -39,6 +39,13 @@ class UsuariosAdaptador (val context: Context,
                          val contactos: List<String>,
                          val idUsuario: String) : RecyclerView.Adapter<UsuariosAdaptador.UsuariosViewHolder>() {
 
+    //Los atributos clickListener y longClickListener nos permitira manejar eventos
+    //de click en cada item desde la clase que crea la instancia del adaptador.
+    //La clase que instancia al adaptador debera implementar las interfaces OnItemClickListener
+    //y OnItemLongClickListener, y establecerse a si misma como escuchador para poder gestionar
+    //los eventos de click en cada item del RecyclerView
+    private var clickListener: OnItemClickListener? = null
+    private var longClickListener: OnItemLongClickListener? = null
     /**
      * onCreateViewHolder: este metodo se ejecuta a la hora de crear un nuevo ViewHolder.
      * Un ViewHolder es un contenedor para un item del RecyclerView
@@ -110,7 +117,7 @@ class UsuariosAdaptador (val context: Context,
     /**
      * UsuariosViewHolder: clase que define un ViewHolder personalizado de usuarios del punto de encuentro
      */
-    class UsuariosViewHolder(v: View) : RecyclerView.ViewHolder(v),
+    inner class UsuariosViewHolder(v: View) : RecyclerView.ViewHolder(v),
             View.OnClickListener, View.OnLongClickListener {
 
         var cardView: CardView
@@ -164,7 +171,7 @@ class UsuariosAdaptador (val context: Context,
      * @param clickListener escuchador de clicks
      */
     fun setOnItemClickListener(clickListener: OnItemClickListener) {
-        UsuariosAdaptador.clickListener = clickListener
+        this.clickListener = clickListener
     }
 
     /**
@@ -172,18 +179,7 @@ class UsuariosAdaptador (val context: Context,
      * @param longClickListener escuchador de clicks
      */
     fun setOnItemLongClickListener(longClickListener: OnItemLongClickListener) {
-        UsuariosAdaptador.longClickListener = longClickListener
-    }
-
-    companion object {
-
-        //El atributo estatico clickListener nos permitira manejar eventos
-        //de click en cada item desde la clase que crea la instancia del adaptador.
-        //La clase que instancia al adaptador debera implementar la interfaz OnItemClickListener
-        //y establecerse a si misma como escuchador para poder gestionar
-        //los eventos de click en cada item del RecyclerView
-        private var clickListener: OnItemClickListener? = null
-        private var longClickListener: OnItemLongClickListener? = null
+        this.longClickListener = longClickListener
     }
 
 }
